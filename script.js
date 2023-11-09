@@ -18,7 +18,7 @@ window.onload = function() {
     const client_id = param("client_id");
     if (!client_id) {
         set_output("<i>Missing client_id</i>");
-        window.location.href = "http://starlinkrouter/";
+        window.location.href = "http://starlinkrouter/airline";
     } else {
         set_output(client_id);
     }
