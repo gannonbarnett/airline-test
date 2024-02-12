@@ -11,7 +11,8 @@ function param(name) {
 window.onload = function() {
     const landed = param("landed");
     if (!landed) {
-        window.location.href = "http://192.168.1.1/landed";
+        document.getElementById("output").innerHTML = `Not lnaded, redirecting...`;
+        window.location.href = "http://starlinkrouter/landed";
     } else {
         document.getElementById("output").innerHTML = `Landed!`;
     }
