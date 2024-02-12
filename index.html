@@ -47,6 +47,7 @@
                         autoland();
                         return;
                     }
+                    document.getElementById("landed").innerHTML = userAgent;
 
                     if (/AppleWebKit/i.test(userAgent)) {
                         land("ios");
