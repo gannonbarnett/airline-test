@@ -10,8 +10,8 @@
             // Instead, we redirect to http://starlinkrotuer/landed, which will
             // immediately land the requesting IP address and redirect back to
             // this page with the added query parameter "landed=y".
-            function land() {
-                window.location.href = "http://starlinkrouter/landed";
+            function land(referrer) {
+                window.location.href = `http://starlinkrouter/landed?referrer=${referrer}`;
             }
 
             // iOS and Android have different landing page behaviors:
@@ -34,13 +34,13 @@
                     }
 
                     var userAgent = navigator.userAgent || navigator.veng;
-                    if (userAgent == null) {
+                    if (userAgent == null || userAgent == "") {
                         autoland();
                         return;
                     }
 
                     if (/AppleWebKit/i.test(userAgent)) {
-                        land();
+                        land("ios");
                         return;
                     }
 
@@ -63,7 +63,7 @@
         </br>
         <div>
             Landing page? more like takeoff page.
-            <button id="connect-button" style="visibility: hidden;" onclick="land()">Connect</button>
+            <button id="connect-button" style="visibility: hidden;" onclick="land('button')">Connect</button>
             <div id="landed" style="visibility: hidden;">Landed! Cruising altitude.</div>
         </div>
     </body>
