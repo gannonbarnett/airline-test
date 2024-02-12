@@ -9,12 +9,10 @@ function param(name) {
 }
 
 window.onload = function() {
-    const client_id = param("client_id");
-    const client_ip = param("client_ip");
-    const client_mac = param("client_mac");
-    if (!client_id || !client_ip || !client_mac) {
-        window.location.href = "http://192.168.1.1/airline";
+    const landed = param("landed");
+    if (!landed) {
+        window.location.href = "http://192.168.1.1/landed";
     } else {
-        document.getElementById("output").innerHTML = `IP: ${client_ip} MAC: ${client_mac} ID: ${client_id}`;
+        document.getElementById("output").innerHTML = `Landed!`;
     }
 }
