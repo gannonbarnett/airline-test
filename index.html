@@ -49,12 +49,13 @@
                     }
                     document.getElementById("landed").innerHTML = userAgent;
 
-                    if (/AppleWebKit/i.test(userAgent)) {
-                        land("ios");
+                    // Keep android open.
+                    if (/android/i.test(userAgent)) {
+                        viewingLanding();
                         return;
                     }
 
-                    viewingLanding("unknown");
+                    land("autoland");
                     return;
                 }, 500); 
             }
