@@ -69,11 +69,7 @@
                 window.onload = function() {
                     document.getElementById("landed").style.visibility = "visible";
                 };
-            } else if (window.location.search.includes("landing=viewing")) {
-                // Client is currently viewing the landing page. Do nothing and wait for the client
-                // to hit the connect button.
-                return;
-            } else {
+            } else if (!window.location.search.includes("landing=viewing")) {
                 autoland();
             }
         </script>
