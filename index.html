@@ -1,5 +1,5 @@
 <html>
-    <html>
+    <head>
         <script>
             // We need to tell the router to land this IP address.
             //
@@ -10,20 +10,49 @@
             // Instead, we redirect to http://starlinkrotuer/landed, which will
             // immediately land the requesting IP address and redirect back to
             // this page with the added query parameter "landed=y".
-            if (location.search.includes("landed=y")) {
-                document.getElementById("output").innerHTML = "landed";
-            } else {
-                document.getElementById("output").innerHTML = "not landed";
+            function land() {
                 window.location.href = "http://starlinkrouter/landed";
             }
+
+            // iOS and Android have different landing page behaviors:
+            // - iOS: keeps the landing page open until the user clicks "Done" or "Cancel"
+            // - Android: closes the landing page as soon as connectivity is detected
+            //
+            // Our target UX is to keep the landing page open for both clients until
+            // the user clicks a button to connect. On iOS this is native via "Done".
+            // On Android, the website must implement this button itself!
+            //
+            // autoland() will automatically land if the client is iOS. 
+            function autoland() {
+                // The user agent loads pretty quickly, but not right away. Use a timeout
+                // loop instead of window.onload() since window.onload() may take a while
+                // for larger websites.
+                setTimeout(function() {
+                    if (navigator == null) {
+                        autoland();
+                        return;
+                    }
+
+                    var userAgent = navigator.userAgent || navigator.veng;
+                    if (userAgent == null) {
+                        autoland();
+                        return;
+                    }
+
+                    if (/AppleWebKit/i.test(userAgent)) {
+                        land();
+                    }
+                    return;
+                }, 500); 
+            }
         </script>
-    </html>
+    </head>
     <body>
         <h1> My Landing Page </h1>
         </br>
         </br>
         <div>
-            You are: <span id="output"></span>
+            Browse my page!
         </div>
     </body>
 </html>
