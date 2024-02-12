@@ -41,18 +41,32 @@
 
                     if (/AppleWebKit/i.test(userAgent)) {
                         land();
+                        return;
                     }
-                    return;
+
+                    document.getElementById("connect-button").style.visibility = "visible";
                 }, 500); 
             }
+
+            if (window.location.search.includes("landed=y")) {
+                window.onload = function() {
+                    document.getElementById("landed").style.visibility = "visible";
+                };
+            } else {
+                autoland();
+            }
+            // Dummy code to show whether the user is currently landed.
+            window.onload()
         </script>
     </head>
     <body>
-        <h1> My Landing Page </h1>
+        <h1>My Landing Page</h1>
         </br>
         </br>
         <div>
-            Browse my page!
+            Landing page? more like takeoff page.
+            <button id="connect-button" style="visibility: none;" onclick="land()">Connect</button>
+            <div id="landed" style="visibility: none;">Landed! Cruising altitude.</div>
         </div>
     </body>
 </html>
