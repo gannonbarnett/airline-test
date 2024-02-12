@@ -68,6 +68,7 @@
             if (window.location.search.includes("landing=landed")) {
                 window.onload = function() {
                     document.getElementById("landed").style.visibility = "visible";
+                    document.getElementById("connect-button").style.visibility = "hidden";
                 };
             } else if (!window.location.search.includes("landing=viewing")) {
                 autoland();
