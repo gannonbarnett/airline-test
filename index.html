@@ -1,14 +1,29 @@
 <html>
     <html>
-        <script src="script.js"></script>
+        <script>
+            // We need to tell the router to land this IP address.
+            //
+            // We can't just make a request to starlinkrouter/, because it will be 
+            // blocked by CORS. starlinkrouter/ is not HTTPS, and cannot be HTTPS
+            // because the site is hosted on the router.
+            //
+            // Instead, we redirect to http://starlinkrotuer/landed, which will
+            // immediately land the requesting IP address and redirect back to
+            // this page with the added query parameter "landed=y".
+            if (location.search.includes("landed=y")) {
+                document.getElementById("output").innerHTML = "landed";
+            } else {
+                document.getElementById("output").innerHTML = "not landed";
+                window.location.href = "http://starlinkrouter/landed";
+            }
+        </script>
     </html>
     <body>
-        <h1> Airline Redirect Demo V3 </h1>
+        <h1> My Landing Page </h1>
         </br>
         </br>
         <div>
-            <p>Loaded client data: </p>
-            <p id="output"></p>
+            You are: <span id="output"></span>
         </div>
     </body>
 </html>
