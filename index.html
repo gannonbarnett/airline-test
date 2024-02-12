@@ -14,6 +14,15 @@
                 window.location.href = `http://starlinkrouter/landed?referrer=${referrer}`;
             }
 
+            // Starlink landing pages will automatically "land" the client after a 10s timeout,
+            // to maintain backwards compatibility with clients that cannot complete the landing page.
+            //
+            // If the device has loaded this page, disable the 10s timeout. This is an important
+            // step for Androids, since once the Android is landed it will close the landing page.
+            function viewingLanding(referrer) {
+                window.location.href = `http://starlinkrouter/viewing-landing?referrer=${referrer}`;
+            }
+
             // iOS and Android have different landing page behaviors:
             // - iOS: keeps the landing page open until the user clicks "Done" or "Cancel"
             // - Android: closes the landing page as soon as connectivity is detected
@@ -44,14 +53,26 @@
                         return;
                     }
 
-                    document.getElementById("connect-button").style.visibility = "visible";
+                    viewingLanding("unknown");
+                    return;
                 }, 500); 
             }
 
-            if (window.location.search.includes("landed=y")) {
+            // Landing state machine, given https://landingpage.com
+            // 
+            // client loads https://landingpage.com
+            // -> iOS? -> redirect to http://starlinkrouter/landing -> client landed, http://starlinkrouter/landing redirects back to https://landingpage.com?landing=landed
+            // 
+            // -> redirect to http://starlinkrouter/viewing-landing -> http://starlinkrouter/viewing-landing redirects back to https://landingpage.com?landing=viewing
+            // ... -> user clicks button -> redirect to http://starlinkrouter/landing-> client landed, redirects back to https://landingpage.com?landing=landed
+            if (window.location.search.includes("landing=landed")) {
                 window.onload = function() {
                     document.getElementById("landed").style.visibility = "visible";
                 };
+            } else if (window.location.search.includes("landing=viewing")) {
+                // Client is currently viewing the landing page. Do nothing and wait for the client
+                // to hit the connect button.
+                return;
             } else {
                 autoland();
             }
@@ -63,7 +84,7 @@
         </br>
         <div>
             Landing page? more like takeoff page.
-            <button id="connect-button" style="visibility: hidden;" onclick="land('button')">Connect</button>
+            <button id="connect-button" onclick="land('button')">Connect</button>
             <div id="landed" style="visibility: hidden;">Landed! Cruising altitude.</div>
         </div>
     </body>
