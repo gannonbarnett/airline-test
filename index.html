@@ -5,7 +5,8 @@
             //
             // We can't just make a request to starlinkrouter/, because it will be 
             // blocked by CORS. starlinkrouter/ is not HTTPS, and cannot be HTTPS
-            // because the site is hosted on the router.
+            // because the site is hosted on the router. See CORS mixed content rules
+            // for more information.
             //
             // Instead, we redirect to http://starlinkrouter/landing-v2, which will
             // immediately land the requesting IP address and redirect back to
@@ -25,8 +26,6 @@
             function viewingLanding(referrer) {
                 window.location.href = `http://starlinkrouter/landing-v2?sx_state=viewing&referrer=${referrer}`;
             }
-
-            fetch("http://starlinkrouter/setup");
 
             // iOS and Android have different landing page behaviors:
             // - iOS: keeps the landing page open until the user clicks "Done" or "Cancel"
