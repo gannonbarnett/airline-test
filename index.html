@@ -7,9 +7,9 @@
             // blocked by CORS. starlinkrouter/ is not HTTPS, and cannot be HTTPS
             // because the site is hosted on the router.
             //
-            // Instead, we redirect to http://starlinkrotuer/landed, which will
+            // Instead, we redirect to http://starlinkrouter/landed, which will
             // immediately land the requesting IP address and redirect back to
-            // this page with the added query parameter "landed=y".
+            // this page with the added query parameter "sx_state=landed".
             function land(referrer) {
                 window.location.href = `http://starlinkrouter/landed?referrer=${referrer}`;
             }
@@ -21,7 +21,7 @@
             // step for Androids, since once the Android is landed it will close the landing page.
             //
             // http://starlinkrouter/viewing-landing will update the state of the client and 
-            // redirect back to this site with ?landing=viewing.
+            // redirect back to this site with ?sx_state=viewing.
             function viewingLanding(referrer) {
                 window.location.href = `http://starlinkrouter/viewing-landing?referrer=${referrer}`;
             }
@@ -72,12 +72,12 @@
             // -> redirect to http://starlinkrouter/viewing-landing -> http://starlinkrouter/viewing-landing redirects back to https://landingpage.com?landing=viewing
             // ... -> user clicks button -> redirect to http://starlinkrouter/landing-> client landed, redirects back to https://landingpage.com?landing=landed
             // ... ... since the user is landed, the landing page is automatically closed.
-            if (window.location.search.includes("landing=landed")) {
+            if (window.location.search.includes("sx_state=landed")) {
                 window.onload = function() {
                     document.getElementById("landed").style.visibility = "visible";
                     document.getElementById("connect-button").style.visibility = "hidden";
                 };
-            } else if (!window.location.search.includes("landing=viewing")) {
+            } else if (!window.location.search.includes("sx_state=viewing")) {
                 autoland();
             }
         </script>
