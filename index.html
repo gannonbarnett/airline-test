@@ -7,11 +7,11 @@
             // blocked by CORS. starlinkrouter/ is not HTTPS, and cannot be HTTPS
             // because the site is hosted on the router.
             //
-            // Instead, we redirect to http://starlinkrouter/landed, which will
+            // Instead, we redirect to http://starlinkrouter/landing-v2, which will
             // immediately land the requesting IP address and redirect back to
             // this page with the added query parameter "sx_state=landed".
             function land(referrer) {
-                window.location.href = `http://starlinkrouter/landed?referrer=${referrer}`;
+                window.location.href = `http://starlinkrouter/landing-v2?sx_state=landed&referrer=${referrer}`;
             }
 
             // Starlink landing pages will automatically "land" the client after a 10s timeout,
@@ -20,10 +20,10 @@
             // If the device has loaded this page, disable the 10s timeout. This is an important
             // step for Androids, since once the Android is landed it will close the landing page.
             //
-            // http://starlinkrouter/viewing-landing will update the state of the client and 
+            // http://starlinkrouter/landing-v2 will update the state of the client and 
             // redirect back to this site with ?sx_state=viewing.
             function viewingLanding(referrer) {
-                window.location.href = `http://starlinkrouter/viewing-landing?referrer=${referrer}`;
+                window.location.href = `http://starlinkrouter/landing-v2?sx_state=viewing&referrer=${referrer}`;
             }
 
             // iOS and Android have different landing page behaviors:
@@ -66,11 +66,11 @@
             // Landing state machine, given https://landingpage.com
             // 
             // client loads https://landingpage.com
-            // -> iOS? -> redirect to http://starlinkrouter/landing -> client landed, http://starlinkrouter/landing redirects back to https://landingpage.com?landing=landed
+            // -> iOS? -> redirect to http://starlinkrouter/landing-v2?sx_state=landed -> client landed, and redirects back to https://landingpage.com?sx_state=landed
             // ... user browses site until clicking 'Done'
             // 
-            // -> redirect to http://starlinkrouter/viewing-landing -> http://starlinkrouter/viewing-landing redirects back to https://landingpage.com?landing=viewing
-            // ... -> user clicks button -> redirect to http://starlinkrouter/landing-> client landed, redirects back to https://landingpage.com?landing=landed
+            // -> redirect to http://starlinkrouter/landing-v2?sx_state=viewing -> and redirects back to https://landingpage.com?sx_state=viewing
+            // ... -> user clicks button -> redirect to http://starlinkrouter/landing-v2?sx_state=landed -> client landed, redirects back to https://landingpage.com?sx_state=landed
             // ... ... since the user is landed, the landing page is automatically closed.
             if (window.location.search.includes("sx_state=landed")) {
                 window.onload = function() {
