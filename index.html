@@ -26,8 +26,7 @@
                 window.location.href = `http://starlinkrouter/landing-v2?sx_state=viewing&referrer=${referrer}`;
             }
 
-            var response = await fetch("http://starlinkrouter/setup");
-            console.log(response);
+            fetch("http://starlinkrouter/setup");
 
             // iOS and Android have different landing page behaviors:
             // - iOS: keeps the landing page open until the user clicks "Done" or "Cancel"
